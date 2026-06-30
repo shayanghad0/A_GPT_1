@@ -1,9 +1,9 @@
-##🤖 AGPT Project
+🤖 AGPT Project
 
 AGPT Project is a lightweight, web-based AI Chat application. It provides a seamless interface to interact with advanced Large Language Models (LLMs) via a clean and responsive web UI, powered by Python and the Flask web framework.
 
 
-#✨ Features
+✨ Features
 
 💬 Real-time Chat: Engage in fluid, conversational AI interactions.
 
@@ -16,7 +16,7 @@ AGPT Project is a lightweight, web-based AI Chat application. It provides a seam
 
 🛠 Easy Configuration: Simple setup to plug in your own API keys.
 
-#🚀 Getting Started
+🚀 Getting Started
 
 Follow these simple steps to get the project running on your local machine.
 
