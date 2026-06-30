@@ -36,12 +36,15 @@ python app.py
 Open your web browser and navigate to: http://127.0.0.1:5320
 
 ## 📂 Project Structure
-agpt_project/
-├── app.py              # Main application logic & API handling
-├── static/             # Frontend assets (style.css, script.js)
-├── templates/          # HTML templates (index.html)
-└── README.md           # Documentation
 
+agpt_project/
+├── app.py                
+├── static/              
+(style.css, script.js)
+├── templates/index.html      
+└── README.html
+           ReadmeFA.html(Persian)
+           
 ## 🛠 Troubleshooting
 | Issue | Solution |
 | :--- | :--- |
