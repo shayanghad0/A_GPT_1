@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Agpt - هوش مصنوعی">
+    <meta name="author" content="Agpt Team">
+    <title>Agpt | هوش مصنوعی</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <main id="app-container">
+        <header class="chat-header">
+            <div class="status-dot"></div>
+            <h1>هوش مصنوعی Agpt</h1>
+        </header>
+
+        <section id="chat-window" class="chat-window">
+         
+            <div class="msg bot-msg">سلام! من Agpt هستم. چطور می‌توانم به شما کمک کنم؟</div>
+        </section>
+
+        <footer class="input-area">
+            <div class="input-wrapper">
+                <input type="text" id="user-input" placeholder="پیام خود را اینجا بنویسید..." autocomplete="off">
+                <button id="send-btn" onclick="sendMessage()">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                </button>
+            </div>
+        </footer>
+    </main>
+
+    <img id="loader" src="{{ url_for('static', filename='load.gif') }}" alt="Loading...">
+ <script> 
+console.log("Welcome to Agpt version 1.1.2")
+</script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

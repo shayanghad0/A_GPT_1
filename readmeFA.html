@@ -1,0 +1,593 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>راهنمای نصب و اجرای پروژه AGPT</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg2: #111827;
+      --card: rgba(255,255,255,0.06);
+      --card2: rgba(255,255,255,0.09);
+      --text: #e5e7eb;
+      --muted: #cbd5e1;
+      --primary: #38bdf8;
+      --primary2: #8b5cf6;
+      --success: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(56,189,248,0.20), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(139,92,246,0.16), transparent 28%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      color: var(--text);
+      line-height: 1.85;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      width: min(1200px, 92%);
+      margin: 0 auto;
+      padding: 32px 0 64px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(139,92,246,0.10));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+      padding: 42px 28px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+      transform: translateX(-100%);
+      animation: shine 7s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%); }
+      40% { transform: translateX(100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      color: white;
+    }
+
+    .hero p {
+      margin: 8px 0;
+      color: var(--muted);
+      max-width: 900px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--text);
+      font-size: 0.95rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .sidebar, .section, .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 18px;
+      padding: 18px;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav li {
+      margin: 8px 0;
+    }
+
+    .nav a {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: var(--text);
+      transition: 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .nav a:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: var(--border);
+      text-decoration: none;
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+    }
+
+    .section {
+      padding: 22px;
+    }
+
+    .section h2 {
+      margin-top: 0;
+      color: white;
+      font-size: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section h3 {
+      color: #dbeafe;
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    .section p, .section li {
+      color: var(--text);
+    }
+
+    .note {
+      border-right: 4px solid var(--primary);
+      background: rgba(56,189,248,0.08);
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin: 14px 0;
+    }
+
+    .warn {
+      border-right: 4px solid var(--warn);
+      background: rgba(245,158,11,0.09);
+    }
+
+    .success {
+      border-right: 4px solid var(--success);
+      background: rgba(34,197,94,0.09);
+    }
+
+    pre {
+      direction: ltr;
+      text-align: left;
+      overflow: auto;
+      background: #0b1220;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 16px;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    code {
+      font-family: Consolas, Monaco, monospace;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .card {
+      padding: 18px;
+    }
+
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .steps li {
+      counter-increment: step;
+      margin: 14px 0;
+      padding: 14px 14px 14px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      position: relative;
+    }
+
+    .steps li::before {
+      content: counter(step);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      color: white;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    .faq details {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .faq summary {
+      cursor: pointer;
+      font-weight: bold;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 24px 0 8px;
+      font-size: 0.95rem;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 11px 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      box-shadow: 0 10px 25px rgba(56,189,248,0.2);
+      font-weight: 700;
+    }
+
+    .btn:hover {
+      opacity: 0.95;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: relative;
+        top: 0;
+      }
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>راهنمای نصب، اجرا و استفاده از پروژه A_GPT</h1>
+     
+      
+      <div class="badge-row">
+        <span class="badge">✅ نصب با pip</span>
+        <span class="badge">🚀 اجرای پروژه</span>
+        <span class="badge">💬 پرسیدن سؤال به فارسی</span>
+        <span class="badge">📱 طراحی ریسپانسیو</span>
+      </div>
+    </section>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <h3>فهرست مطالب</h3>
+        <ul class="nav">
+          <li><a href="#intro">1) معرفی پروژه</a></li>
+          <li><a href="#requirements">2) پیش‌نیازها</a></li>
+          <li><a href="#install">3) نصب pip و وابستگی‌ها</a></li>
+          <li><a href="#run">4) اجرای پروژه</a></li>
+          <li><a href="#question">5) نحوه پرسیدن سؤال</a></li>
+          <li><a href="#structure">6) ساختار پروژه</a></li>
+          <li><a href="#troubleshooting">7) عیب‌یابی</a></li>
+          <li><a href="#faq">8) سوالات متداول</a></li>
+        </ul>
+      </aside>
+
+      <main class="content">
+        <section class="section" id="intro">
+          <h2>1) معرفی پروژه</h2>
+          <p>
+            این پروژه یک اپلیکیشن تحت وب/پایتونی است که به شما اجازه می‌دهد به‌صورت ساده و تعاملی سؤال بپرسید و پاسخ دریافت کنید.
+            رابط کاربری پروژه با HTML، CSS و JavaScript طراحی شده و بخش سرور با Python مدیریت می‌شود.
+          </p>
+
+          <div class="note">
+            <b>هدف این فایل:</b> کمک به کاربر برای نصب سریع، اجرای بدون دردسر و استفاده از برنامه به زبان فارسی.
+          </div>
+        </section>
+
+        <section class="section" id="requirements">
+          <h2>2) پیش‌نیازها</h2>
+          <ul>
+            <li>نصب بودن <b>Python 3.10+</b></li>
+            <li>دسترسی به <b>pip</b></li>
+            <li>ترجیحاً استفاده از <b>virtual environment</b></li>
+            <li>مرورگر مدرن مثل Chrome، Edge یا Firefox</li>
+          </ul>
+
+          <div class="warn note">
+            اگر در سیستم شما چند نسخه Python نصب است، بهتر است از <code>python3</code> یا <code>py</code> استفاده کنید.
+          </div>
+        </section>
+
+        <section class="section" id="install">
+          <h2>3) نصب pip و وابستگی‌ها</h2>
+
+          <h3>3-1) بررسی نصب بودن Python</h3>
+          <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>python --version
+pip --version</code></pre>
+
+          <h3>3-2) اگر pip نصب نبود</h3>
+          <p>در بیشتر نسخه‌های جدید Python، pip بهcopy-btn" onclick="copyCode(this)">کپی</button><code>python -m venv-btn" onclick="copyCode(this)">کپی</button><code>python -m ensurepip --upgrade</code></pre>
+
+          <h3>3-3) ساخت محیط مجازی پیشنهادی</h3>
+          <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>python -m venv venv</code></pre>
+
+          <h3>3-4) فعال‌سازی محیط مجازی</h3>
+          <div class="grid-2">
+            <div class="card">
+              <h3>ویندوز</h3>
+              <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>venv\Scripts\activate</code></pre>
+            </div>
+            <div class="card">
+              <h3>لینوکس / مک</h3>
+              <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>source venv/bin/activate</code></pre>
+            </div>
+          </div>
+
+          <h3>3-5) نصب کتابخانه‌ها</h3>
+          <p>
+            اگر فایل <code>requirements.txt</code> دارید:
+          </p>
+          <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>pip install -r requirements.txt</code></pre>
+
+          <p>
+            اگر فایل requirements ندارید، کتابخانه‌های موردنیاز را بر اساس کد پروژه نصب کنید. برای پروژه‌های وب پایتونی معمولاً مواردی مثل Flask یا FastAPI رایج هستند.
+          </p>
+
+          <div class="success note">
+            پیشنهاد می‌شود همیشه نصب وابستگی‌ها را داخل محیط مجازی انجام دهید تا تداخل با پروژه‌های دیگر ایجاد نشود.
+          </div>
+        </section>
+
+        <section class="section" id="run">
+          <h2>4) اجرای پروژه</h2>
+          <ol class="steps">
+            <li>وارد پوشه پروژه شوید.</li>
+            <li>محیط مجازی را فعال کنید.</li>
+            <li>وابستگی‌ها را نصب کنید.</li>
+            <li>فایل اصلی برنامه را اجرا کنید.</li>
+          </ol>
+
+          <h3>نمونه اجرای معمول</h3>
+          <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>python app.py</code></pre>
+
+          <p>بعد از اجرا، معمولاً آدرس برنامه در ترمینال نمایش داده می‌شود، مانند:</p>
+          <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>http://127.0.0.1:5000</code></pre>
+
+          <div class="note">
+            اگر برنامه روی پورت دیگری اجرا شد، همان آدرس نمایش‌داده‌شده در ترمینال را در مرورگر باز کنید.
+          </div>
+        </section>
+
+        <section class="section" id="question">
+          <h2>5) نحوه پرسیدن سؤال از برنامه</h2>
+          <p>
+            پس از باز شدن صفحه اصلی، معمولاً یک کادر متن برای وارد کردن سؤال وجود دارد. کافی است:
+          </p>
+
+          <ol class="steps">
+            <li>سؤال خود را داخل کادر بنویسید.</li>
+            <li>روی دکمه ارسال یا پرسش کلیک کنید.</li>
+            <li>منتظر بمانید تا پاسخ نمایش داده شود.</li>
+          </ol>
+
+          <h3>نمونه سؤال‌های مناسب</h3>
+          <div class="grid-2">
+            <div class="card">
+              <b>نمونه 1:</b>
+              <p>«سلام، لطفاً نحوه نصب پروژه را توضیح بده.»</p>
+            </div>
+            <div class="card">
+              <b>نمونه 2:</b>
+              <p>«چطور برنامه را روی سیستم خودم اجرا کنم؟»</p>
+            </div>
+            <div class="card">
+              <b>نمونه 3:</b>
+              <p>«چرا پروژه اجرا نمی‌شود و خطا می‌دهد؟»</p>
+            </div>
+            <div class="card">
+              <b>نمونه 4:</b>
+              <p>«نحوه استفاده از رابط کاربری را توضیح بده.»</p>
+            </div>
+          </div>
+
+          <div class="warn note">
+            اگر پاسخ‌ها به مدل/سرور خارجی وابسته باشند، اتصال اینترنت یا تنظیمات کلید API نیز ممکن است لازم باشد.
+          </div>
+        </section>
+
+        <section class="section" id="structure">
+          <h2>6) ساختار پروژه</h2>
+          <p>ساختار رایج این پروژه به شکل زیر است:</p>
+
+          <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>agpt_project/
+├── app.py
+├── templates/
+│   └── index.html
+└── static/
+    ├── style.css
+    └── script.js</code></pre>
+
+          <ul>
+            <li><b>app.py</b> : فایل اصلی بک‌اند و منطق برنامه</li>
+            <li><b>templates/index.html</b> : قالب اصلی صفحه</li>
+            <li><b>static/style.css</b> : استایل‌ها و طراحی ظاهری</li>
+            <li><b>static/script.js</b> : رفتارهای تعاملی سمت مرورگر</li>
+          </ul>
+        </section>
+
+        <section class="section" id="troubleshooting">
+          <h2>7) عیب‌یابی</h2>
+
+          <h3>مشکل: pip شناخته نمی‌شود</h3>
+          <p>راه‌حل:</p>
+          <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>python -m pip install --upgrade pip</code></pre>
+
+          <h3>مشکل: ماژول پیدا نشد</h3>
+          <p>مثال:</p>
+          <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>ModuleNotFoundError: No module named 'flask'</code></pre>
+          <p>راه‌حل:</p>
+          <pre><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>pip install flask</code></pre>
+
+          <h3>مشکل: صفحه باز می‌شود ولی پاسخی نمی‌دهد</h3>
+          <ul>
+            <li>کنسول مرورگر را بررسی کنید.</li>
+            <li>ترمینال/لاگ سرور را نگاه کنید.</li>
+            <li>مطمئن شوید سرور backend در حال اجراست.</li>
+            <li>اگر API استفاده می‌شود، کلید و تنظیمات را بررسی کنید.</li>
+          </ul>
+        </section>
+
+        <section class="section faq" id="faq">
+          <h2>8) سوالات متداول</h2>
+
+          <details>
+            <summary>آیا باید از محیط مجازی استفاده کنم؟</summary>
+            <p>بله، بسیار توصیه می‌شود چون وابستگی‌ها را جدا نگه می‌دارد و از تداخل جلوگیری می‌کند.</p>
+          </details>
+
+          <details>
+            <summary>اگر برنامه اجرا نشد چه کنم؟</summary>
+            <p>ابتدا نسخه Python، نصب pip، نصب وابستگی‌ها و سپس لاگ خطا را بررسی کنید.</p>
+          </details>
+
+          <details>
+            <summary>آیا می‌توانم پروژه را روی سیستم دیگری هم اجرا کنم؟</summary>
+            <p>بله، کافی است Python و وابستگی‌های موردنیاز را نصب کنید و مراحل اجرا را تکرار کنید.</p>
+          </details>
+
+          <details>
+            <summary>چطور سؤال به فارسی بپرسم؟</summary>
+            <p>فقط متن سؤال خود را فارسی در کادر ورودی تایپ کنید و دکمه ارسال را بزنید.</p>
+          </details>
+        </section>
+
+        <section class="section">
+          <h2>جمع‌بندی</h2>
+          <p>
+            با دنبال کردن مراحل بالا می‌توانید پروژه را نصب، اجرا و از آن برای پرسیدن سؤال استفاده کنید.
+
+          </p>
+        </section>
+
+        <footer>
+          <b>ساخته شده توسط Amir-93</b> 
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    function copyCode(btn) {
+      const pre = btn.parentElement;
+      const code = pre.querySelector("code").innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const old = btn.innerText;
+        btn.innerText = "کپی شد";
+        setTimeout(() => btn.innerText = old, 1200);
+      });
+    }
+  </script>
+</body>
+</html>
